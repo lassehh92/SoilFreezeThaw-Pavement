@@ -69,7 +69,7 @@ GetVarGrid(std::string name)
 	   || name.compare("ground_heat_flux") == 0 || name.compare("smcmax") == 0
 	   || name.compare("b") == 0 || name.compare("satpsi") == 0)
     return 1; //double
-  else if (name.compare("soil_moisture_profile") == 0 || name.compare("soil_temperature_profile") == 0)
+  else if (name.compare("soil_moisture_profile") == 0 || name.compare("soil_temperature_profile") == 0 || name.compare("soil_ice_profile") == 0)
     return 2; // arrays
   else
     return -1;
@@ -142,7 +142,7 @@ GetVarLocation(std::string name)
   else if (name.compare("ice_fraction_schaake") == 0 ||  name.compare("num_cells") == 0
 	   || name.compare("ground_heat_flux") == 0)
     return "node";
-  else if (name.compare("soil_moisture_profile") == 0 || name.compare("soil_temperature_profile") == 0)
+  else if (name.compare("soil_moisture_profile") == 0 || name.compare("soil_temperature_profile") == 0 || name.compare("soil_ice_profile") == 0)
     return "node";
   else
     return "";
@@ -258,6 +258,8 @@ GetValuePtr (std::string name)
     return (void*)this->state->soil_temperature;
   if (name.compare("soil_moisture_profile") == 0)
     return (void*)this->state->soil_moisture_content;
+  else if (name.compare("soil_ice_profile") == 0)
+    return (void*)this->state->soil_ice_content;
   else if (name.compare("ground_temperature") == 0 )
     return (void*)(&this->state->ground_temp);
   else if (name.compare("ground_heat_flux") == 0)

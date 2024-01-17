@@ -1,2 +1,0 @@
-/Applications/anaconda3/envs/freezethaw/bin/x86_64-apple-darwin13.4.0-ar qc libsftlib.a CMakeFiles/sftlib.dir/src/bmi_soil_freeze_thaw.cxx.o CMakeFiles/sftlib.dir/src/soil_freeze_thaw.cxx.o CMakeFiles/sftlib.dir/extern/SoilMoistureProfiles/src/bmi_soil_moisture_profile.cxx.o CMakeFiles/sftlib.dir/extern/SoilMoistureProfiles/src/soil_moisture_profile.cxx.o
-/Applications/anaconda3/envs/freezethaw/bin/llvm-ranlib libsftlib.a

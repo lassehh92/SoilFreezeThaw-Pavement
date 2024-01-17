@@ -26,6 +26,7 @@ class BmiSoilFreezeThaw : public bmixx::Bmi {
       this->output_var_names[3] = "soil_temperature_profile";
       this->output_var_names[4] = "soil_ice_fraction";
       this->output_var_names[5] = "ground_heat_flux";
+      this->output_var_names[6] = "soil_ice_profile";
 
       // add calibratable parameters
       this->calib_var_names[0]  = "smcmax";
@@ -88,7 +89,7 @@ class BmiSoilFreezeThaw : public bmixx::Bmi {
   private:
     soilfreezethaw::SoilFreezeThaw* state;
     static const int input_var_name_count  = 2;
-    static const int output_var_name_count = 6;
+    static const int output_var_name_count = 7;
     static const int calib_var_name_count  = 3;
 
     std::string input_var_names[input_var_name_count];
