@@ -697,7 +697,16 @@ ThermalConductivity() {
     
     // Thermal conductivity
     thermal_conductivity[i] = KN * (tc_sat - tc_dry) + tc_dry;
-    
+
+    //Asphalt
+    if (i <= 1) {
+      double v = 0.002822 * this->soil_temperature[i] + 0.380175;
+      thermal_conductivity[i] = this->soil_temperature[i] > 273.15 ? v : 4.0 * v;
+    } // Gravel
+    else if (i <= 5) {
+      double v = 0.001173 * this->soil_temperature[i] + 0.226336;
+      thermal_conductivity[i] = this->soil_temperature[i] > 273.15 ? v : 4.0 * v;
+    }
   }
 }
 
