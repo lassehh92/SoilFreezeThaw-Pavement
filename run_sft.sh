@@ -21,7 +21,8 @@ if [ $option == "STANDALONE" ]; then
     args='./configs/laramie_config_standalone.txt'
     exe_name='sft_standalone'
 else if [ $option == "PFRAMEWORK" ]; then
-	 args="./configs/dansani_config_sft.txt ./configs/dansani_config_smp.txt"
+	 #args="./configs/dansani_config_sft.txt ./configs/dansani_config_smp.txt"
+     args="./configs/dansani_config_sft_dz_1cm.txt ./configs/dansani_config_smp_dz_1cm.txt"
 	 exe_name='sft_pframework'
      fi
 fi
