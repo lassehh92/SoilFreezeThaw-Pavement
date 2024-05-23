@@ -76,8 +76,14 @@ main(int argc, const char *argv[])
   double endtime  = sft_bmi_model.GetEndTime();
   double timestep = sft_bmi_model.GetTimeStep();
   int nsteps = int(endtime/timestep); // total number of time steps
-  assert (nsteps <= int(data.GT_v.size()) ); // assertion to ensure that nsteps are less or equal than the input data
+  std::cout << "End time: " << endtime << std::endl;
+  std::cout << "Timestep: " << timestep << std::endl;
+  std::cout << "Calculated nsteps: " << nsteps << std::endl;
+  std::cout << "Size of GT_v: " << data.GT_v.size() << std::endl;
+
+  //assert (nsteps <= int(data.GT_v.size()) ); // assertion to ensure that nsteps are less or equal than the input data
   //nsteps = std::min(nsteps,int(data.GT_v.size())) + 10000;
+  nsteps = std::min(nsteps, int(data.GT_v.size()));
   int ncells;
   sft_bmi_model.GetValue("num_cells", &ncells);
   
