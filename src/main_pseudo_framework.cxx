@@ -81,9 +81,9 @@ main(int argc, const char *argv[])
   std::cout << "Calculated nsteps: " << nsteps << std::endl;
   std::cout << "Size of GT_v: " << data.GT_v.size() << std::endl;
 
-  //assert (nsteps <= int(data.GT_v.size()) ); // assertion to ensure that nsteps are less or equal than the input data
+  assert (nsteps <= int(data.GT_v.size()) ); // assertion to ensure that nsteps are less or equal than the input data
   //nsteps = std::min(nsteps,int(data.GT_v.size())) + 10000;
-  nsteps = std::min(nsteps, int(data.GT_v.size()));
+  //nsteps = std::min(nsteps, int(data.GT_v.size()));
   int ncells;
   sft_bmi_model.GetValue("num_cells", &ncells);
   
@@ -108,7 +108,7 @@ main(int argc, const char *argv[])
   fp_smc << "#index, time, data\n";
   
   for (int i = 0; i < nsteps; i++){
-    data.GT_v[i] = 265.;
+    // data.GT_v[i] = 265.;
     std::cout<<"------------------------------------------------------ \n";
     std::cout<<"Timestep | "<< i <<", ground temp, WL = "<< data.GT_v[i] <<", "<<data.WL_v[i]<<"\n";
     std::cout<<"------------------------------------------------------ \n";
@@ -220,18 +220,24 @@ ReadForcingData(std::string config_file)
     vars.push_back(cell);
   }
 
-  for (unsigned int i=0; i<vars.size();i++) {
-    if (vars[i] ==  "TMP_ground_surface")
+  for (unsigned int i = 0; i < vars.size(); i++) {
+    if (vars[i] == "TMP_ground_surface") {
       ground_temp_index = i;
-
-    if (vars[i] ==  "Waterlevel_300cm")
+      std::cout << "Found TMP_ground_surface at index: " << i << std::endl;
+    }
+    if (vars[i] ==  "Waterlevel_300cm") {
       water_table_index = i;
+      std::cout << "Found Waterlevel_300cm at index: " << i << std::endl;
+    }
   }
 
-  if (ground_temp_index <0)
-    ground_temp_index = 6; // 6 is the air temperature column, if not coupled and ground temperatgure is not provided
-    
+  if (ground_temp_index <0) {
+    ground_temp_index = 1; // 1 is the temperature 3 cm below surface column, if not coupled and ground temperature is not provided
+    std::cout << "TMP_ground_surface not found, defaulting ground_temp_index to 1 (Temp_3cm_below_surface)" << std::endl;
+  }
+
   int len_v = vars.size(); // number of forcing variables + time
+  std::cout << "Number of forcing variables + time: " << len_v << std::endl;
 
   int count = 0;
   

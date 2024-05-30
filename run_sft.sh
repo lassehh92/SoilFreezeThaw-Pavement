@@ -1,4 +1,16 @@
 #!/bin/bash
+
+# Create 'logs' directory if it doesn't exist
+if [ ! -d "logs" ]; then
+    mkdir logs
+fi
+
+# Set log file name based on current date and time
+log_filename="logs/$(date +'%Y-%m-%d_%H-%M-%S').log"
+
+# Redirect stdout and stderr to the log file
+exec > >(tee -a "$log_filename") 2>&1
+
 option=$1
 
 if [ ! $# == 1 ]; then
@@ -14,17 +26,17 @@ else
     exit
 fi
 
-
 args=" "
 exe_name=" "
 if [ $option == "STANDALONE" ]; then
     args='./configs/laramie_config_standalone.txt'
     exe_name='sft_standalone'
-else if [ $option == "PFRAMEWORK" ]; then
-	 #args="./configs/dansani_config_sft.txt ./configs/dansani_config_smp.txt"
-     args="./configs/dansani_config_sft_dz_1cm.txt ./configs/dansani_config_smp_dz_1cm.txt"
-	 exe_name='sft_pframework'
-     fi
+elif [ $option == "PFRAMEWORK" ]; then
+    #args="./configs/dansani_config_sft.txt ./configs/dansani_config_smp.txt"
+    #args="./configs/dansani_config_sft_dz_1cm.txt ./configs/dansani_config_smp_dz_1cm.txt"
+    args="./configs/dansani_config_sft_dz_3cm.txt ./configs/dansani_config_smp_dz_3cm.txt"
+    exe_name='sft_pframework'
 fi
+
 echo "config file: $args"
 ./build/${exe_name} $args
