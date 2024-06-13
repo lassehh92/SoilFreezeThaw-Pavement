@@ -1,0 +1,12 @@
+verbosity=none
+forcing_file=./forcings/Haandvaerkervej_Perma_road_All_data_04Jan2023_to_07feb2024.csv
+soil_moisture_bmi=1
+end_time=9573.34[h]
+dt=600.0[sec]
+soil_params.smcmax=0.468[m/m]
+soil_params.b=18.8[]
+soil_params.satpsi=0.3467[m]
+soil_params.quartz=0.25[]
+ice_fraction_scheme=Schaake[]
+soil_z=0.03,0.06,0.09,0.12,0.15,0.18,0.21,0.24,0.27,0.30,0.33,0.36,0.39,0.42,0.45,0.48,0.51,0.54,0.57,0.60[m]
+soil_temperature=280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15,280.15[K]
