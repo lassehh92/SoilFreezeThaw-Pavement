@@ -112,7 +112,8 @@ InitFromConfigFile(std::string config_file)
   bool is_ice_fraction_scheme_set = false;   // ice fraction scheme
   bool is_bottom_boundary_temp_set = false;  // bottom boundary temperature
   bool is_top_boundary_temp_set = false;     // bottom boundary temperature
-    
+  bool is_tc_factor_set = false;
+  
   while (fp) {
 
     std::string line;
@@ -249,6 +250,11 @@ InitFromConfigFile(std::string config_file)
 	this->verbosity = "none";
       continue;
     }
+    else if (param_key == "tc_factor") {
+      this->tc_factor = stod(param_value);
+      is_tc_factor_set = true;
+      continue;
+    }
   }
   
   fp.close();
@@ -309,6 +315,10 @@ InitFromConfigFile(std::string config_file)
     throw std::runtime_error("Ice fraction scheme not set in the config file!");
   }
 
+  if (!is_tc_factor_set) {
+    this->tc_factor = 1.0;
+  }
+  
   this->option_bottom_boundary = is_bottom_boundary_temp_set == true ? 1 : 2; // if false zero geothermal flux is the BC
 
   this->option_top_boundary = is_top_boundary_temp_set == true ? 1 : 2; // 1: constant temp, 2: from a file
@@ -699,14 +709,19 @@ ThermalConductivity() {
     thermal_conductivity[i] = KN * (tc_sat - tc_dry) + tc_dry;
 
     //Asphalt
-    if (i <= 1) {
+    int ncells_asphalt = int(0.2/soil_dz[0]);
+    int ncells_gravel = int(0.4/soil_dz[0]);
+
+    if (i <= ncells_asphalt) {
       double v = 0.002822 * this->soil_temperature[i] + 0.380175;
       thermal_conductivity[i] = this->soil_temperature[i] > 273.15 ? v : 4.0 * v;
     } // Gravel
-    else if (i <= 5) {
+    else if (i <= ncells_gravel) {
       double v = 0.001173 * this->soil_temperature[i] + 0.226336;
       thermal_conductivity[i] = this->soil_temperature[i] > 273.15 ? v : 4.0 * v;
     }
+
+    thermal_conductivity[i] = this->tc_factor * thermal_conductivity[i];
   }
 }
 
