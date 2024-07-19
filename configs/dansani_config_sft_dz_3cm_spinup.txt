@@ -1,7 +1,7 @@
 verbosity=none
-forcing_file=./forcings/Haandvaerkervej_Perma_road_SPINUP_5_times_Jan2023.csv
+forcing_file=./forcings/Haandvaerkervej_Perma_road_SPINUP_03okt2022_to_04jan2023.csv
 soil_moisture_bmi=1
-end_time=7010[h]
+end_time=2221.83[h]
 dt=600.0[sec]
 soil_params.smcmax=0.468[m/m]
 soil_params.b=18.8[]
