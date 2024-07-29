@@ -1,5 +1,5 @@
 verbosity=none
-forcing_file=./forcings/Haandvaerkervej_Perma_road_All_data_04Jan2023_to_07feb2024.csv
+forcing_file=./forcings/Haandvaerkervej_Perma_road_04Jan2023_to_07feb2024_updated.csv
 soil_moisture_bmi=1
 end_time=9573.34[h]
 dt=600.0[sec]
