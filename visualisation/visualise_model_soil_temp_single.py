@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from io import StringIO
 
 # Load the observed data
-observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_All_data_04Jan2023_to_07feb2024.csv', delimiter=',')
+#observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_All_data_04Jan2023_to_07feb2024.csv', delimiter=',')
+observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_SPINUP_03okt2022_to_04jan2023.csv', delimiter=',')
 
 # Load the simulated data and handle irregular lines
 with open('output/soil_temp.dat', 'r') as file:
@@ -40,8 +41,8 @@ simulated_data_cleaned['time'] = pd.to_datetime(simulated_data_cleaned['time'], 
 merged_data = pd.merge(observed_data, simulated_data_cleaned, on='time', suffixes=('_observed', '_simulated'))
 
 # Specify the time period for visualization
-start_date = '2023-01-04 13:50'
-end_date = '2023-02-06 16:00'
+start_date = '2022-10-04 00:00'
+end_date = '2023-01-04 13:30'
 
 # Filter the merged data for the specified time period
 mask = (merged_data['time'] >= start_date) & (merged_data['time'] <= end_date)
@@ -91,17 +92,19 @@ fig, ax = plt.subplots(2, 1, figsize=(14, 10), sharex=True)
 # Plot for 6 cm below surface
 ax[0].plot(filtered_data['time'], filtered_data['Temp_6cm_below_surface_observed'], label='Observed', color='blue')
 ax[0].plot(filtered_data['time'], filtered_data['Temp_6cm_below_surface_simulated'], label='Simulated', color='orange')
-ax[0].set_title('Temperature at 6 cm Below Surface')
+ax[0].set_title(f'Temperature at 6 cm Below Surface (aggregation level = {aggregation})', fontsize=12)
 ax[0].set_ylabel('Temperature (°C)')
 ax[0].legend()
+ax[0].grid(True, linestyle='--', alpha=0.7)
 
 # Plot for 30 cm below surface
 ax[1].plot(filtered_data['time'], filtered_data['Temp_30cm_below_surface_observed'], label='Observed', color='blue')
 ax[1].plot(filtered_data['time'], filtered_data['Temp_30cm_below_surface_simulated'], label='Simulated', color='orange')
-ax[1].set_title('Temperature at 30 cm Below Surface')
+ax[1].set_title(f'Temperature at 30 cm Below Surface (aggregation level = {aggregation})', fontsize=12)
 ax[1].set_xlabel('Time')
 ax[1].set_ylabel('Temperature (°C)')
 ax[1].legend()
+ax[1].grid(True, linestyle='--', alpha=0.7)
 
 plt.tight_layout()
 plt.show()

@@ -64,12 +64,13 @@ elif aggregation == 'daily':
     filtered_data.set_index('time', inplace=True)
     filtered_data = filtered_data.resample('D').mean().reset_index()
 
-# Calculate statistical measures: correlation and mean difference
+# Calculate statistical measures: correlation, mean difference, and RMSE
 stat_summary = {
     'Depth (cm)': [],
     'Simulation': [],
     'Correlation': [],
-    'Mean Difference (Observed - Simulated)': []
+    'Mean Difference (Observed - Simulated)': [],
+    'RMSE': []
 }
 
 # Depth columns to compare
@@ -82,13 +83,16 @@ for depth in depth_columns:
         
         correlation = filtered_data[observed_col].corr(filtered_data[simulated_col])
         mean_diff = (filtered_data[observed_col] - filtered_data[simulated_col]).mean()
+        rmse = np.sqrt(((filtered_data[observed_col] - filtered_data[simulated_col]) ** 2).mean())
         
         stat_summary['Depth (cm)'].append(depth)
         stat_summary['Simulation'].append(sim_name)
         stat_summary['Correlation'].append(correlation)
         stat_summary['Mean Difference (Observed - Simulated)'].append(mean_diff)
+        stat_summary['RMSE'].append(rmse)
 
 stat_summary_df = pd.DataFrame(stat_summary)
+stat_summary_df.to_csv('statistical_summary.csv', index=False)
 print(stat_summary_df)
 
 # Plot the data
@@ -107,9 +111,9 @@ for depth, ax in zip(depths_to_compare, axes):
         ax.plot(filtered_data['time'], filtered_data[f'Temp_{depth}cm_below_surface_{sim_name}'], 
                 label=f'Simulated ({sim_name})', color=sim_colors[i], linewidth=1.5, alpha=0.8)
     
-    ax.set_title(f'Temperature at {depth} cm Below Surface', fontsize=14)
+    ax.set_title(f'Temperature at {depth} cm Below Surface (aggregation level = {aggregation})', fontsize=14)
     ax.set_ylabel('Temperature (°C)', fontsize=12)
-    ax.legend(fontsize=10, loc='upper left')
+    ax.legend(fontsize=10, loc='lower left')
     ax.grid(True, linestyle='--', alpha=0.7)
     ax.tick_params(axis='both', which='major', labelsize=10)
 
