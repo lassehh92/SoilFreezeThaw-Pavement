@@ -35,8 +35,8 @@ elif [ $option == "PFRAMEWORK" ]; then
     #args="./configs/dansani_config_sft.txt ./configs/dansani_config_smp.txt"
     #args="./configs/dansani_config_sft_dz_1cm.txt ./configs/dansani_config_smp_dz_1cm.txt"
     #args="./configs/dansani_config_sft_dz_3cm.txt ./configs/dansani_config_smp_dz_3cm.txt"
-    args="./configs/dansani_config_sft_dz_3cm_spinup.txt ./configs/dansani_config_smp_dz_3cm.txt"
-    #args="./configs/dansani_config_sft_dz_3cm_transient.txt ./configs/dansani_config_smp_dz_3cm.txt"
+    #args="./configs/dansani_config_sft_dz_3cm_spinup.txt ./configs/dansani_config_smp_dz_3cm.txt"
+    args="./configs/dansani_config_sft_dz_3cm_transient.txt ./configs/dansani_config_smp_dz_3cm.txt"
     exe_name='sft_pframework'
 fi
 
