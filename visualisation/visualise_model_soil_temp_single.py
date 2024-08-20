@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from io import StringIO
 
 # Load the observed data
-#observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_All_data_04Jan2023_to_07feb2024.csv', delimiter=',')
-observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_SPINUP_03okt2022_to_04jan2023.csv', delimiter=',')
+#observed_data = pd.read_csv('forcings/OLD_Haandvaerkervej_Perma_road/Haandvaerkervej_Perma_road_All_data_04Jan2023_to_07feb2024.csv', delimiter=',')
+observed_data = pd.read_csv('forcings/OLD_Haandvaerkervej_Perma_road/Haandvaerkervej_Perma_road_SPINUP_03okt2022_to_04jan2023.csv', delimiter=',')
 
 # Load the simulated data and handle irregular lines
 with open('output/soil_temp.dat', 'r') as file:
