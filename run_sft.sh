@@ -32,8 +32,8 @@ if [ $option == "STANDALONE" ]; then
     args='./configs/laramie_config_standalone.txt'
     exe_name='sft_standalone'
 elif [ $option == "PFRAMEWORK" ]; then
-    args="./configs/haandvaerkervej_config_sft_dz_3cm_spinup.txt ./configs/haandvaerkervej_config_smp_dz_3cm.txt"
-    #args="./configs/haandvaerkervej_config_sft_dz_3cm_transient.txt ./configs/haandvaerkervej_config_smp_dz_3cm.txt"
+    #args="./configs/haandvaerkervej_config_sft_dz_3cm_spinup.txt ./configs/haandvaerkervej_config_smp_dz_3cm.txt"
+    args="./configs/haandvaerkervej_config_sft_dz_3cm_transient.txt ./configs/haandvaerkervej_config_smp_dz_3cm.txt"
     exe_name='sft_pframework'
 fi
 

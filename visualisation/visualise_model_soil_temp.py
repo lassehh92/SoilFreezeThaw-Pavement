@@ -5,8 +5,13 @@ import os
 import numpy as np
 
 # Load the observed data
-observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_04Jan2023_to_07feb2024_updated.csv', delimiter=',')
+# observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_04Jan2023_to_07feb2024_updated.csv', delimiter=',') 
+observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_TRANSIENT_2-nov-2022--7-feb-2024.csv', delimiter=',')
 observed_data['time'] = pd.to_datetime(observed_data['time'], format='%m/%d/%y %H:%M')
+
+# Load multiple simulation files
+output_dir = 'output/tc_factor_exp_25-aug-2024'
+simulation_files = [f for f in os.listdir(output_dir) if f.endswith('.dat')]
 
 # Define a function to load and process a single simulation file
 def load_and_process_simulation(file_path, depth_increment):
@@ -28,13 +33,12 @@ def load_and_process_simulation(file_path, depth_increment):
     
     return simulated_data
 
-# Load multiple simulation files
-simulation_files = [f for f in os.listdir('output/tc_factor_exp') if f.endswith('.dat')]
-simulations = {}
 
-for file in simulation_files:
-    sim_name = os.path.splitext(file)[0]
-    simulations[sim_name] = load_and_process_simulation(os.path.join('output/tc_factor_exp', file), depth_increment=3)
+# Process all simulation files
+simulations = {
+    os.path.splitext(file)[0]: load_and_process_simulation(os.path.join(output_dir, file), depth_increment=3)
+    for file in simulation_files
+}
 
 # Merge datasets on the time column for comparison
 merged_data = observed_data.copy()
@@ -46,10 +50,6 @@ start_date = '2023-11-07 13:50'
 end_date = '2024-02-07 11:00'
 mask = (merged_data['time'] >= start_date) & (merged_data['time'] <= end_date)
 filtered_data = merged_data.loc[mask]
-
-# # Specify the time period for visualization
-# start_date = '2023-12-04 13:50'
-# end_date = '2024-02-06 16:00'
 
 # Specify aggregation level: None, 'hourly', or 'daily'
 #aggregation = None 

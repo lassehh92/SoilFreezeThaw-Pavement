@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 # Load the SpinUp CSV file
 file_path_1 = '/Users/lhh/github-projects/SoilFreezeThaw-Pavement-2/forcings/Haandvaerkervej_Perma_road_SPINUP_4-okt-2022--2-nov-2022.csv'
 df1 = pd.read_csv(file_path_1)
-df1['time'] = pd.to_datetime(df1['time'], format='%m/%d/%y %H:%M', errors='coerce')
+df1['time'] = pd.to_datetime(df1['time'], errors='coerce')
 
 # Load the new CSV file
 file_path_2 = '/Users/lhh/github-projects/SoilFreezeThaw-Pavement-2/forcings/Haandvaerkervej_Perma_road_TRANSIENT_2-nov-2022--7-feb-2024.csv'
 df2 = pd.read_csv(file_path_2)
-df2['time'] = pd.to_datetime(df2['time'], format='%m/%d/%y %H:%M', errors='coerce')
+df2['time'] = pd.to_datetime(df2['time'], errors='coerce')
 
 # Set start and end dates for visualization
 start_date = '2022-10-03'  # Replace with your desired start date
