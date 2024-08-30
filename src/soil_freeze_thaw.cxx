@@ -112,7 +112,8 @@ InitFromConfigFile(std::string config_file)
   bool is_ice_fraction_scheme_set = false;   // ice fraction scheme
   bool is_bottom_boundary_temp_set = false;  // bottom boundary temperature
   bool is_top_boundary_temp_set = false;     // bottom boundary temperature
-  bool is_tc_factor_set = false;
+  bool is_tc_factor_uf_set = false;
+  bool is_tc_factor_f_set = false;
   
   while (fp) {
 
@@ -250,9 +251,14 @@ InitFromConfigFile(std::string config_file)
 	this->verbosity = "none";
       continue;
     }
-    else if (param_key == "tc_factor") {
-      this->tc_factor = stod(param_value);
-      is_tc_factor_set = true;
+    else if (param_key == "tc_factor_unfrozen") {
+      this->tc_factor_uf = stod(param_value);
+      is_tc_factor_uf_set = true;
+      continue;
+    }
+    else if (param_key == "tc_factor_frozen") {
+      this->tc_factor_f = stod(param_value);
+      is_tc_factor_f_set = true;
       continue;
     }
   }
@@ -315,8 +321,11 @@ InitFromConfigFile(std::string config_file)
     throw std::runtime_error("Ice fraction scheme not set in the config file!");
   }
 
-  if (!is_tc_factor_set) {
-    this->tc_factor = 1.0;
+  if (!is_tc_factor_uf_set) {
+    this->tc_factor_uf = 1.0;
+  }
+  if (!is_tc_factor_f_set) {
+    this->tc_factor_f = 1.0;
   }
   
   this->option_bottom_boundary = is_bottom_boundary_temp_set == true ? 1 : 2; // if false zero geothermal flux is the BC
@@ -720,8 +729,11 @@ ThermalConductivity() {
       double v = 0.001173 * this->soil_temperature[i] + 0.226336;
       thermal_conductivity[i] = this->soil_temperature[i] > 273.15 ? v : 4.0 * v;
     }
-
-    thermal_conductivity[i] = this->tc_factor * thermal_conductivity[i];
+    
+    if (this->soil_temperature[i] > 273.15)
+      thermal_conductivity[i] = this->tc_factor_uf * thermal_conductivity[i];
+    else
+      thermal_conductivity[i] = this->tc_factor_f * thermal_conductivity[i];
   }
 }
 

@@ -109,7 +109,8 @@ namespace soilfreezethaw {
     bool   is_soil_moisture_bmi_set;
     double energy_consumed;
     double energy_balance;
-    double tc_factor;
+    double tc_factor_uf;
+    double tc_factor_f;
     
     std::string ice_fraction_scheme;
     std::string verbosity;
