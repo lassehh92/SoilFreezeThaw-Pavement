@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 from io import StringIO
 
 # Load the observed data
+observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_TRANSIENT_2-nov-2022--7-feb-2024.csv', delimiter=',')
 #observed_data = pd.read_csv('forcings/OLD_Haandvaerkervej_Perma_road/Haandvaerkervej_Perma_road_All_data_04Jan2023_to_07feb2024.csv', delimiter=',')
-observed_data = pd.read_csv('forcings/OLD_Haandvaerkervej_Perma_road/Haandvaerkervej_Perma_road_SPINUP_03okt2022_to_04jan2023.csv', delimiter=',')
+#observed_data = pd.read_csv('forcings/OLD_Haandvaerkervej_Perma_road/Haandvaerkervej_Perma_road_SPINUP_03okt2022_to_04jan2023.csv', delimiter=',')
 
 # Load the simulated data and handle irregular lines
 with open('output/soil_temp.dat', 'r') as file:
@@ -41,8 +42,17 @@ simulated_data_cleaned['time'] = pd.to_datetime(simulated_data_cleaned['time'], 
 merged_data = pd.merge(observed_data, simulated_data_cleaned, on='time', suffixes=('_observed', '_simulated'))
 
 # Specify the time period for visualization
-start_date = '2022-10-04 00:00'
-end_date = '2023-01-04 13:30'
+# entire period
+start_date = '2022-11-02 00:00'
+end_date = '2024-02-07 13:30'
+
+# # 1st freeze period
+# start_date = '2022-11-02 00:00'
+# end_date = '2023-04-07 13:30'
+
+# # 2nd freeze period
+# start_date = '2023-06-01 00:00'
+# end_date = '2023-09-01 13:30'
 
 # Filter the merged data for the specified time period
 mask = (merged_data['time'] >= start_date) & (merged_data['time'] <= end_date)
@@ -50,8 +60,8 @@ filtered_data = merged_data.loc[mask]
 
 # Specify aggregation level: None, 'hourly', or 'daily'
 #aggregation = None 
-aggregation = 'hourly'
-#aggregation = 'daily'
+#aggregation = 'hourly'
+aggregation = 'daily'
 
 # Perform aggregation if specified
 if aggregation == 'hourly':
