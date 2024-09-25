@@ -10,7 +10,7 @@ observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_TRANSIENT_2-nov
 observed_data['time'] = pd.to_datetime(observed_data['time'], format='%m/%d/%y %H:%M')
 
 # Load multiple simulation files
-output_dir = 'output/tc_factor_frozen_0.5_unfrozen_2.0_porosity_exp'
+output_dir = 'output/tc_factor_test'
 simulation_files = [f for f in os.listdir(output_dir) if f.endswith('.dat')]
 
 # Define a function to load and process a single simulation file
