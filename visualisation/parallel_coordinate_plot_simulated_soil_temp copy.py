@@ -8,7 +8,9 @@ import re
 from tqdm import tqdm
 
 # Load merged data
-output_dir = 'output/tc_factor_frozen_unfrozen_exp_25-sep-2024'
+#output_dir = 'output/tc_factor_frozen_unfrozen_exp_25-sep-2024'
+output_dir = 'output/tc_frozen_unfrozen_smcmax_exp_25-sep-2024'
+
 merged_data = pd.read_csv(os.path.join(output_dir, 'merged_data.csv'))
 
 # Convert 'time' column to datetime
@@ -26,20 +28,20 @@ simulation_names = [col.replace("Temp_6cm_below_surface_", "") for col in merged
 
 # Specify the time period for visualization
 
-# entire period
-start_date = '2022-11-02 00:00'
-end_date = '2024-02-07 13:30'
-aggregation = 'daily'
+# # entire period
+# start_date = '2022-11-02 00:00'
+# end_date = '2024-02-07 13:30'
+# aggregation = 'daily'
 
 # # 1st freeze period
 # start_date = '2022-11-02 00:00'
 # end_date = '2023-04-07 13:30'
 # aggregation = 'hourly'
 
-# # 1st freeze period - local 1st
-# start_date = '2022-11-15 00:00'
-# end_date = '2023-01-15 13:30'
-# aggregation = 'hourly'
+# 1st freeze period - local 1st
+start_date = '2022-11-15 00:00'
+end_date = '2023-01-15 13:30'
+aggregation = 'hourly'
 
 # # 2nd freeze period
 # start_date = '2023-11-07 00:00'
@@ -131,8 +133,8 @@ def create_parallel_plot(depth, metric):
     depth_df = plot_df[plot_df['Depth (cm)'] == depth]
     
     # Prepare dimensions including the metric
-    #dimensions = ['tc_f', 'tc_uf', 'smcmax', metric]
-    dimensions = ['tc_f', 'tc_uf', metric]
+    dimensions = ['tc_f', 'tc_uf', 'smcmax', metric]
+    #dimensions = ['tc_f', 'tc_uf', metric]
     
     # Create parallel coordinate plot
     fig = px.parallel_coordinates(
@@ -164,11 +166,17 @@ def create_parallel_plot(depth, metric):
     return fig
 
 # Set options
-depth_option = 30  # or 30
+depth_option = 30 # 6 or 30
 metric_option = 'RMSE'  # or 'RMSE' or 'NSE' or 'R-squared'
 
 # Create and show the plot
-fig = create_parallel_plot(depth_option, metric_option)
+# fig = create_parallel_plot(depth_option, 'R-squared')
+# fig.show()
+
+# fig = create_parallel_plot(depth_option, 'RMSE')
+# fig.show()
+
+fig = create_parallel_plot(depth_option, 'NSE')
 fig.show()
 
 # Optionally, save the plot as an HTML file

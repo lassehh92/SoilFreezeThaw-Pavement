@@ -3,9 +3,16 @@ import os
 import shutil
 
 # Define the range of values for each parameter
-tc_factor_frozen_values = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8]
-tc_factor_unfrozen_values = [1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0]
-smcmax_values = [0.468]
+
+# Exp TC frozen Unfrozen -- 25-sep-2024
+# tc_factor_frozen_values = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0]
+# tc_factor_unfrozen_values = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0]
+# smcmax_values = [0.468]
+
+# Exp TC frozen Unfrozen SMCmax -- 25-sep-2024
+tc_factor_frozen_values = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4]
+tc_factor_unfrozen_values = [1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8]
+smcmax_values = [0.2, 0.3, 0.4, 0.45, 0.5, 0.6, 0.7]
 
 # Path to the configuration file
 config_file = 'configs/haandvaerkervej_config_sft_dz_3cm_transient.txt'
