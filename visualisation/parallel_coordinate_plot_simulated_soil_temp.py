@@ -9,7 +9,8 @@ from tqdm import tqdm
 
 # Load merged data
 #output_dir = 'output/tc_factor_frozen_unfrozen_exp_25-sep-2024'
-output_dir = 'output/tc_frozen_unfrozen_smcmax_exp_25-sep-2024'
+#output_dir = 'output/tc_frozen_unfrozen_smcmax_exp_25-sep-2024'
+output_dir = 'output/24-oct_sand_2'
 
 merged_data = pd.read_csv(os.path.join(output_dir, 'merged_data.csv'))
 
@@ -28,17 +29,12 @@ simulation_names = [col.replace("Temp_6cm_below_surface_", "") for col in merged
 
 # Specify the time period for visualization
 
-# # entire period
-# start_date = '2022-11-02 00:00'
-# end_date = '2024-02-07 13:30'
-# aggregation = 'daily'
+# entire period
+start_date = '2022-11-02 00:00'
+end_date = '2024-02-07 13:30'
+aggregation = 'daily'
 
-# # 1st freeze period
-# start_date = '2022-11-02 00:00'
-# end_date = '2023-04-07 13:30'
-# aggregation = 'hourly'
-
-# 1st freeze period - local 1st
+# 1st freeze period
 start_date = '2022-11-15 00:00'
 end_date = '2023-01-15 13:30'
 aggregation = 'hourly'
@@ -46,6 +42,13 @@ aggregation = 'hourly'
 # # 2nd freeze period
 # start_date = '2023-11-07 00:00'
 # end_date = '2024-02-07 13:30'
+# aggregation = 'hourly'
+
+# # #####
+
+# # 1st freeze  (long)
+# start_date = '2022-11-02 00:00'
+# end_date = '2023-04-07 13:30'
 # aggregation = 'hourly'
 
 # Filter the merged data for the specified time period
@@ -99,13 +102,14 @@ stat_summary_df = pd.DataFrame(stat_summary)
 
 # Extract variables from simulation names
 def extract_variables(sim_name):
-    pattern = r'tc_f_(\d+\.\d+)_tc_uf_(\d+\.\d+)_smcmax_(\d+\.\d+)'
+    pattern = r'tc_f_(\d+\.\d+)_tc_uf_(\d+\.\d+)_smcmax_(\d+\.\d+)_hcsoil_(\d+\.\d+)'
     match = re.search(pattern, sim_name)
     if match:
         return {
             'tc_f': float(match.group(1)),
             'tc_uf': float(match.group(2)),
-            'smcmax': float(match.group(3))
+            'smcmax': float(match.group(3)),
+            'hcsoil': float(match.group(4))
         }
     return None
 
@@ -122,7 +126,8 @@ for _, row in stat_summary_df.iterrows():
             'RMSE': row['RMSE'],
             'tc_f': sim_vars['tc_f'],
             'tc_uf': sim_vars['tc_uf'],
-            'smcmax': sim_vars['smcmax']
+            'smcmax': sim_vars['smcmax'],
+            'hcsoil': sim_vars['hcsoil']
         })
 
 plot_df = pd.DataFrame(plot_data)
@@ -133,7 +138,8 @@ def create_parallel_plot(depth, metric):
     depth_df = plot_df[plot_df['Depth (cm)'] == depth]
     
     # Prepare dimensions including the metric
-    dimensions = ['tc_f', 'tc_uf', 'smcmax', metric]
+    #dimensions = ['tc_f', 'tc_uf', 'smcmax', 'hcsoil', metric]
+    dimensions = ['tc_f', 'tc_uf', 'hcsoil', metric]
     #dimensions = ['tc_f', 'tc_uf', metric]
     
     # Create parallel coordinate plot
@@ -145,6 +151,7 @@ def create_parallel_plot(depth, metric):
             "tc_f": "TC Frozen",
             "tc_uf": "TC Unfrozen",
             "smcmax": "SMCMAX",
+            "hcsoil": "HCSOIL",
             "R-squared": "R-squared",
             "NSE": "NSE",
             "RMSE": "RMSE"

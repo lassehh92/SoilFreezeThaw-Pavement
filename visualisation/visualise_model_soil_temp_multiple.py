@@ -10,7 +10,28 @@ observed_data = pd.read_csv('forcings/Haandvaerkervej_Perma_road_TRANSIENT_2-nov
 observed_data['time'] = pd.to_datetime(observed_data['time'], format='%m/%d/%y %H:%M')
 
 # Load multiple simulation files
-output_dir = 'output/best_NSE_3_level_exp_25-sep-2024'
+#output_dir = 'output/best_NSE_exp_25-sep-2024' # exp 1
+#output_dir = 'output/best_NSE_3_level_exp_25-sep-2024' # exp 2
+#output_dir = 'output/best_NSE_exp_18-oct' # exp 3
+#output_dir = 'output/best_21-oct' # exp 4
+#output_dir = 'output/best_24-oct' # exp 5
+
+output_dir = 'output/best_clay_2_level_25-sep-2024' # exp 1
+soiltype = 'Clay'
+parameters = 'TC\\ Frozen,\\ TC\\ Unfrozen'
+
+# output_dir = 'output/best_clay_3_level_25-sep-2024' # exp 2
+# soiltype = 'Clay'
+# parameters = 'TC\\ Frozen,\\ TC\\ Unfrozen,\\ Porosity'
+
+# output_dir = 'output/best_clay_23-oct' # exp 6
+# soiltype = 'Clay'
+# parameters = 'TC\\ Frozen,\\ TC\\ Unfrozen,\\ HC\\ Soil'
+
+# output_dir = 'output/best_sand_soil' # exp 7
+# soiltype = 'Sand' 
+# parameters = 'TC\\ Frozen,\\ TC\\ Unfrozen,\\ HC\\ Soil'
+
 simulation_files = [f for f in os.listdir(output_dir) if f.endswith('.dat')]
 
 # Define a function to load and process a single simulation file
@@ -47,29 +68,34 @@ for sim_name, sim_data in simulations.items():
 
 # Specify the time period for visualization
 
-# # entire period
-# start_date = '2022-11-02 00:00'
-# end_date = '2024-02-07 13:30'
-# aggregation = 'daily'
-# plot_legend_loc='upper left'
+# entire period
+start_date = '2022-11-02 00:00'
+end_date = '2024-02-07 13:30'
+aggregation = 'daily'
+plot_legend_loc='upper left'
+period = 'Entire'
 
-# # 1st freeze period
-# start_date = '2022-11-02 00:00'
-# end_date = '2023-04-07 13:30'
-# aggregation = 'hourly'
-# plot_legend_loc='lower left'
-
-# # 1st freeze period - local 1st
+# # 1st freeze period 
 # start_date = '2022-11-15 00:00'
 # end_date = '2023-01-15 13:30'
 # aggregation = 'hourly'
 # plot_legend_loc='lower left'
+# period = '1st\\ freeze'
 
-# 2nd freeze period
-start_date = '2023-11-07 00:00'
-end_date = '2024-02-07 13:30'
-aggregation = 'hourly'
-plot_legend_loc='lower left'
+# # 2nd freeze period
+# start_date = '2023-11-07 00:00'
+# end_date = '2024-02-07 13:30'
+# aggregation = 'hourly'  
+# plot_legend_loc='lower left'
+# period = '2nd\\ freeze'
+
+#########
+
+# # 1st freeze period (long)
+# start_date = '2022-11-02 00:00'
+# end_date = '2023-04-07 13:30'
+# aggregation = 'hourly'
+# plot_legend_loc='lower left'
 
 # Filter the merged data for the specified time period
 mask = (merged_data['time'] >= start_date) & (merged_data['time'] <= end_date)
@@ -147,12 +173,15 @@ sim_colors = plt.cm.Set1(np.linspace(0, 1, len(simulations)))
 for depth, ax in zip(depths_to_compare, axes):
     ax.plot(filtered_data['time'], filtered_data[f'Temp_{depth}cm_below_surface'], 
             label='Observed', color=observed_color, linestyle=observed_style, linewidth=2)
-    
     for i, (sim_name, _) in enumerate(sorted(simulations.items())):
+        nse = stat_summary_df[(stat_summary_df['Depth (cm)'] == depth) & (stat_summary_df['Simulation'] == sim_name)]['NSE'].values[0]
         ax.plot(filtered_data['time'], filtered_data[f'Temp_{depth}cm_below_surface_{sim_name}'], 
-                label=f'Simulated ({sim_name})', color=sim_colors[i], linewidth=1.5, alpha=0.8)
+                label=f'Simulated {sim_name} | NSE={nse:.4f}', color=sim_colors[i], linewidth=1.5, alpha=0.8)
     
-    ax.set_title(f'Temperature at {depth} cm Below Surface (aggregation level = {aggregation})', fontsize=14)
+    
+    #title = rf"Temperature at $\mathbf{{{depth} cm}}$ Below Surface | $\mathbf{{{period}}}$ period | $\mathbf{{{soiltype}}}$ soil | aggregation level = $\mathbf{{{aggregation}}}$"
+    title = rf"Temperature at $\mathbf{{{depth} cm}}$ Below Surface | $\mathbf{{{period}}}$ period | $\mathbf{{{soiltype}}}$ soil | Parameters = $\mathbf{{{parameters}}}$"
+    ax.set_title(title, fontsize=12)
     ax.set_ylabel('Temperature (°C)', fontsize=12)
     ax.legend(fontsize=10, loc=plot_legend_loc)
     ax.grid(True, linestyle='--', alpha=0.7)

@@ -11,8 +11,8 @@ observed_data['time'] = pd.to_datetime(observed_data['time'], format='%m/%d/%y %
 
 # Load multiple simulation files
 #output_dir = 'output/tc_factor_frozen_unfrozen_exp_25-sep-2024'
-output_dir = 'output/tc_frozen_unfrozen_smcmax_exp_25-sep-2024'
-#output_dir = 'output/tc_factor_test'
+#output_dir = 'output/tc_frozen_unfrozen_smcmax_exp_25-sep-2024'
+output_dir = 'output/24-oct_sand_2'
 simulation_files = [f for f in os.listdir(output_dir) if f.endswith('.dat')]
 
 # Define a function to load and process a single simulation file
@@ -69,7 +69,7 @@ for sim_name, sim_data in tqdm(simulations.items(), desc="Merging simulations"):
 
 merged_data.to_csv(os.path.join(output_dir, 'merged_data.csv'), index=False)
 
-# print("Merge complete.")
+print("Merge complete.")
 # print("Columns in merged_data:")
 # print(merged_data.columns.tolist())
 # print("\nFirst few rows of merged_data:")

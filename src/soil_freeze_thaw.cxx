@@ -114,6 +114,7 @@ InitFromConfigFile(std::string config_file)
   bool is_top_boundary_temp_set = false;     // bottom boundary temperature
   bool is_tc_factor_uf_set = false;
   bool is_tc_factor_f_set = false;
+  bool is_hcsoil_factor_set = false;
   
   while (fp) {
 
@@ -261,6 +262,11 @@ InitFromConfigFile(std::string config_file)
       is_tc_factor_f_set = true;
       continue;
     }
+    else if (param_key == "hcsoil_factor") {
+      this->hcsoil_factor = stod(param_value);
+      is_hcsoil_factor_set = true;
+      continue;
+    }
   }
   
   fp.close();
@@ -326,6 +332,9 @@ InitFromConfigFile(std::string config_file)
   }
   if (!is_tc_factor_f_set) {
     this->tc_factor_f = 1.0;
+  }
+  if (!is_hcsoil_factor_set) {
+    this->hcsoil_factor = 1.0;
   }
   
   this->option_bottom_boundary = is_bottom_boundary_temp_set == true ? 1 : 2; // if false zero geothermal flux is the BC
@@ -747,7 +756,7 @@ SoilHeatCapacity() {
   
   for (int i=0; i<nz;i++) {
     double sice = soil_moisture_content[i] - soil_liquid_content[i];
-    heat_capacity[i] = soil_liquid_content[i]*prop.hcwater_ + sice*prop.hcice_ + (1.0-this->smcmax)*prop.hcsoil_ + (this->smcmax-soil_moisture_content[i])*prop.hcair_;
+    heat_capacity[i] = soil_liquid_content[i]*prop.hcwater_ + sice*prop.hcice_ + (1.0-this->smcmax)*prop.hcsoil_*hcsoil_factor + (this->smcmax-soil_moisture_content[i])*prop.hcair_;
   }
 
 }

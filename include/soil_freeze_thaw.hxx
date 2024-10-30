@@ -111,6 +111,7 @@ namespace soilfreezethaw {
     double energy_balance;
     double tc_factor_uf;
     double tc_factor_f;
+    double hcsoil_factor;
     
     std::string ice_fraction_scheme;
     std::string verbosity;

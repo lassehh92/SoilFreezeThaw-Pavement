@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Create 'logs' directory if it doesn't exist
-if [ ! -d "logs" ]; then
-    mkdir logs
-fi
+# # Create 'logs' directory if it doesn't exist
+# if [ ! -d "logs" ]; then
+#     mkdir logs
+# fi
 
-# Set log file name based on current date and time
-log_filename="logs/$(date +'%Y-%m-%d_%H-%M-%S').log"
+# # Set log file name based on current date and time
+# log_filename="logs/$(date +'%Y-%m-%d_%H-%M-%S').log"
 
-# Redirect stdout and stderr to the log file
-exec > >(tee -a "$log_filename") 2>&1
+# # Redirect stdout and stderr to the log file
+# exec > >(tee -a "$log_filename") 2>&1
 
 option=$1
 
