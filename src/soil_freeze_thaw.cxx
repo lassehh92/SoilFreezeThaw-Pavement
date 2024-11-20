@@ -727,8 +727,8 @@ ThermalConductivity() {
     thermal_conductivity[i] = KN * (tc_sat - tc_dry) + tc_dry;
 
     //Asphalt
-    int ncells_asphalt = int(0.2/soil_dz[0]);
-    int ncells_gravel = int(0.4/soil_dz[0]);
+    int ncells_asphalt = int(0.18/soil_dz[0]); // 0.18 m is the bottom depth of the asphalt layer - for soildz=0.03 it is 6 cells
+    int ncells_gravel = int(0.58/soil_dz[0]); // 0.58 m is the bottom depth of the gravel layer - for soildz=0.03 it is 19 cells
 
     if (i <= ncells_asphalt) {
       double v = 0.002822 * this->soil_temperature[i] + 0.380175;

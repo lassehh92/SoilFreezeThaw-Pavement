@@ -33,15 +33,15 @@ observed_data['time'] = pd.to_datetime(observed_data['time'], format='%m/%d/%y %
 # parameters = 'TC\\ Frozen,\\ TC\\ Unfrozen,\\ HC\\ Soil'
 
 
-output_dir = 'output/best-20-15-nov-fine' 
-soiltype = 'Clay'
-parameters = 'TC\\ Frozen,\\ TC\\ Unfrozen,\\ HC\\ Soil'
-
-
-
-# output_dir = 'output/sensitivity_analysis_smcmax'
+# output_dir = 'output/best-15-nov-fine' 
 # soiltype = 'Clay'
-# parameters = 'SMCmax'
+# parameters = 'TC\\ Frozen,\\ TC\\ Unfrozen,\\ HC\\ Soil'
+
+
+
+output_dir = 'output/sensitivity_analysis_smcmax'
+soiltype = 'Clay'
+parameters = 'SMCmax'
 
 simulation_files = [f for f in os.listdir(output_dir) if f.endswith('.dat')]
 
@@ -85,6 +85,7 @@ end_date = '2024-02-07 13:30'
 aggregation = 'daily'
 plot_legend_loc='upper left'
 period = 'Entire'
+ylimit_range = (-10, 40)
 
 # # 1st freeze period 
 # start_date = '2022-11-15 00:00'
@@ -92,6 +93,7 @@ period = 'Entire'
 # aggregation = 'hourly'
 # plot_legend_loc='lower left'
 # period = '1st\\ freeze'
+# ylimit_range = (-12, 12)
 
 # # 2nd freeze period
 # start_date = '2023-11-07 00:00'
@@ -99,6 +101,15 @@ period = 'Entire'
 # aggregation = 'hourly'  
 # plot_legend_loc='lower left'
 # period = '2nd\\ freeze'
+# ylimit_range = (-12, 12)
+
+# # 2nd freeze period
+# start_date = '2023-11-01 00:00'
+# end_date = '2024-02-01 00:00'
+# aggregation = 'hourly'  
+# plot_legend_loc='lower left'
+# period = '2nd\\ freeze'
+# ylimit_range = (-12, 12)
 
 ########
 
@@ -136,7 +147,7 @@ stat_summary = {
 }
 
 # Depth columns to compare
-depth_columns = [30]
+depth_columns = [6, 30]
 
 for depth in depth_columns:
     observed_col = f'Temp_{depth}cm_below_surface'
@@ -163,34 +174,50 @@ stat_summary_df.to_csv('statistical_summary.csv', index=False)
 print(stat_summary_df)
 
 # Plot the data
-depths_to_compare = [30]
+depths_to_compare = [6, 30]
 fig, axes = plt.subplots(2, 1, figsize=(14, 12), sharex=True)
 
 observed_color = 'blue'
 observed_style = '--'
-# Other color map options include:
-# sim_colors = plt.cm.Set1(np.linspace(0, 1, len(simulations)))
-# sim_colors = plt.cm.Set2(np.linspace(0, 1, len(simulations)))
-# sim_colors = plt.cm.Set3(np.linspace(0, 1, len(simulations)))
-# sim_colors = plt.cm.Paired(np.linspace(0, 1, len(simulations)))
-# sim_colors = plt.cm.tab10(np.linspace(0, 1, len(simulations)))
-# sim_colors = plt.cm.tab20(np.linspace(0, 1, len(simulations)))
-# sim_colors = plt.cm.Pastel1(np.linspace(0, 1, len(simulations)))
-# sim_colors = plt.cm.Pastel2(np.linspace(0, 1, len(simulations)))
 
-# Using 'Set2' as an example:
-sim_colors = plt.cm.Set1(np.linspace(0, 1, len(simulations)))
+# Get sorted simulation names to ensure consistent ordering
+sorted_sim_names = sorted(simulations.keys())
 
 for depth, ax in zip(depths_to_compare, axes):
+    # Plot observed data
     ax.plot(filtered_data['time'], filtered_data[f'Temp_{depth}cm_below_surface'], 
-            label='Observed', color=observed_color, linestyle=observed_style, linewidth=2)
-    for i, (sim_name, _) in enumerate(sorted(simulations.items())):
-        nse = stat_summary_df[(stat_summary_df['Depth (cm)'] == depth) & (stat_summary_df['Simulation'] == sim_name)]['NSE'].values[0]
-        ax.plot(filtered_data['time'], filtered_data[f'Temp_{depth}cm_below_surface_{sim_name}'], 
-                label=f'Simulated {sim_name} | NSE={nse:.4f}', color=sim_colors[i], linewidth=1.5, alpha=0.8)
+            label='Observed', color='#B22222', linestyle='--', linewidth=2)
     
+    # Get data for all simulations
+    sim1_data = filtered_data[f'Temp_{depth}cm_below_surface_{sorted_sim_names[0]}']  # SMCmax = 0.4
+    sim2_data = filtered_data[f'Temp_{depth}cm_below_surface_{sorted_sim_names[1]}']  # SMCmax = 0.5
+    sim3_data = filtered_data[f'Temp_{depth}cm_below_surface_{sorted_sim_names[2]}']  # SMCmax = 0.6
     
-    #title = rf"Temperature at $\mathbf{{{depth} cm}}$ Below Surface | $\mathbf{{{period}}}$ period | $\mathbf{{{soiltype}}}$ soil | aggregation level = $\mathbf{{{aggregation}}}$"
+    # Calculate min and max values for fill_between
+    lower_bound = np.minimum(sim1_data, sim3_data)
+    upper_bound = np.maximum(sim1_data, sim3_data)
+    
+    # Plot the interval area
+    ax.fill_between(filtered_data['time'], lower_bound, upper_bound, 
+                    alpha=0.15, color='grey')
+                    #label='SMCmax range (0.4 - 0.6)')
+    
+    # Plot all simulation lines
+    ax.plot(filtered_data['time'], sim1_data,
+           color='#6CA6CD', linestyle='-', linewidth=1,
+           label='smcmax = 0.4')
+    
+    ax.plot(filtered_data['time'], sim2_data,
+           color='#104E8B', linestyle='--', linewidth=1,
+           label='smcmax = 0.5')
+    
+    ax.plot(filtered_data['time'], sim3_data,
+           color='#082F57', linestyle='-', linewidth=1,
+           label='smcmax = 0.6')
+    
+    # Set same y-axis limits for both plots
+    ax.set_ylim(ylimit_range)
+    
     title = rf"Temperature at $\mathbf{{{depth} cm}}$ Below Surface | $\mathbf{{{period}}}$ period | $\mathbf{{{soiltype}}}$ soil | Parameters = $\mathbf{{{parameters}}}$"
     ax.set_title(title, fontsize=12)
     ax.set_ylabel('Temperature (°C)', fontsize=12)

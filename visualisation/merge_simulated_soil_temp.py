@@ -12,7 +12,7 @@ observed_data['time'] = pd.to_datetime(observed_data['time'], format='%m/%d/%y %
 # Load multiple simulation files
 #output_dir = 'output/tc_factor_frozen_unfrozen_exp_25-sep-2024'
 #output_dir = 'output/tc_frozen_unfrozen_smcmax_exp_25-sep-2024'
-output_dir = 'output/24-oct_sand_2'
+output_dir = 'output/20-nov'
 simulation_files = [f for f in os.listdir(output_dir) if f.endswith('.dat')]
 
 # Define a function to load and process a single simulation file

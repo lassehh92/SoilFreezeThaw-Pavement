@@ -10,7 +10,7 @@ from tqdm import tqdm
 # Load merged data
 #output_dir = 'output/tc_factor_frozen_unfrozen_exp_25-sep-2024'
 #output_dir = 'output/tc_frozen_unfrozen_smcmax_exp_25-sep-2024'
-output_dir = 'output/24-oct_sand_2'
+output_dir = 'output/20-nov'
 
 merged_data = pd.read_csv(os.path.join(output_dir, 'merged_data.csv'))
 
@@ -34,15 +34,15 @@ start_date = '2022-11-02 00:00'
 end_date = '2024-02-07 13:30'
 aggregation = 'daily'
 
-# 1st freeze period
-start_date = '2022-11-15 00:00'
-end_date = '2023-01-15 13:30'
-aggregation = 'hourly'
-
-# # 2nd freeze period
-# start_date = '2023-11-07 00:00'
-# end_date = '2024-02-07 13:30'
+# # 1st freeze period
+# start_date = '2022-11-15 00:00'
+# end_date = '2023-01-15 13:30'
 # aggregation = 'hourly'
+
+# 2nd freeze period
+start_date = '2023-11-07 00:00'
+end_date = '2024-02-07 13:30'
+aggregation = 'hourly'
 
 # # #####
 

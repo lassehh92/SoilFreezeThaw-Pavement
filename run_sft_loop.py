@@ -115,13 +115,55 @@ import shutil
 # hcsoil_values = [28.0, 30.0, 32.0, 34.0, 36.0, 38.0, 40.0] #6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0, 22.0, 24.0
 # #config_file = 'configs/haandvaerkervej_config_sft_dz_3cm_transient_sand_soil.txt'
 
-## Exp TC frozen Unfrozen SMCmax HCsoil -- 24-oct-2024
-tc_factor_frozen_values = [5.0, 6.0, 7.0, 8.0]
-tc_factor_unfrozen_values = [30.0] #[16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0] #4.0, 6.0, 8.0, 10.0, 12.0, 14.0  
-smcmax_values = [0.35]
-hcsoil_values = [32.0, 34.0, 36.0, 38.0, 40.0] #[28.0, 30.0, 32.0, 34.0, 36.0, 38.0, 40.0] #6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0, 22.0, 24.0
+# ## Exp TC frozen Unfrozen SMCmax HCsoil -- 24-oct-2024
+# tc_factor_frozen_values = [5.0, 6.0, 7.0, 8.0]
+# tc_factor_unfrozen_values = [30.0] #[16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0] #4.0, 6.0, 8.0, 10.0, 12.0, 14.0  
+# smcmax_values = [0.35]
+# hcsoil_values = [32.0, 34.0, 36.0, 38.0, 40.0] #[28.0, 30.0, 32.0, 34.0, 36.0, 38.0, 40.0] #6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0, 22.0, 24.0
 #config_file = 'configs/haandvaerkervej_config_sft_dz_3cm_transient_sand_soil.txt'
 
+#### 14 November 2024 ###
+#### CLAY SOIL ###
+
+## Exp TC frozen Unfrozen SMCmax HCsoil -- 14-nov-2024
+# tc_factor_frozen_values = [1.0, 1.5, 2.0, 2.5]
+# tc_factor_unfrozen_values = [6.0, 8.0, 10.0, 12.0]
+# smcmax_values = [0.5]
+# hcsoil_values = [10.0, 15.0, 20.0]
+
+
+
+# ## Exp TC frozen Unfrozen SMCmax HCsoil -- 15-nov-2024
+# tc_factor_frozen_values =  [1.5, 2.0, 2.5, 2.75, 3.0, 3.5]
+# tc_factor_unfrozen_values = [7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0]
+# smcmax_values = [0.5]
+# hcsoil_values = [18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0]
+
+# ## Exp TC frozen Unfrozen SMCmax HCsoil -- 15-nov-2024
+# tc_factor_frozen_values =  [2.0, 2.1, 2.2, 2.3, 2.4, 2.5]
+# tc_factor_unfrozen_values = [10.0, 10.5, 11.0, 11.5, 12.0]
+# smcmax_values = [0.5]
+# hcsoil_values = [22.0]
+
+
+# ## Exp TC frozen Unfrozen SMCmax HCsoil -- sensitivity analysis on smcmax
+# tc_factor_frozen_values =  [2.3]
+# tc_factor_unfrozen_values = [10.5]
+# smcmax_values = [0.5]
+# hcsoil_values = [12.0, 22.0, 32.0]
+
+
+# #### corrected gravel layer depth 20-nov-2024 ###
+# tc_factor_frozen_values =  [2.0, 2.1, 2.2, 2.3, 2.4, 2.5]
+# tc_factor_unfrozen_values = [10.0, 10.5, 11.0, 11.5, 12.0]
+# smcmax_values = [0.5]
+# hcsoil_values = [22.0]
+
+## Exp TC frozen Unfrozen SMCmax HCsoil -- sensitivity analysis on smcmax
+tc_factor_frozen_values =  [2.2]
+tc_factor_unfrozen_values = [10.5]
+smcmax_values = [0.5]
+hcsoil_values = [12.0, 22.0, 32.0]
 
 
 # Path to the configuration file
