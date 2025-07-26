@@ -1,25 +1,56 @@
-# Soil Freeze-thaw Model
-The soil freeze-thaw model simulates the transport of heat in soil using a one-dimensional vertical column. The model uses a standard diffusion equation discretized using a fully-implicit scheme at the interior and a semi-implicit scheme at the top and bottom boundaries, similar to NOAH-MP. More details are provided below.
+# Soil Freeze-Thaw Model for Permeable Pavements
 
-## Build and Run Instructions
-Detailed instructions on how to build and run the SoilFreezeThaw (SFT) model can be found in the [INSTALL](https://github.com/NOAA-OWP/SoilFreezeThaw/blob/master/INSTALL.md) guide.
-  - Test examples highlights
-    - Unittest (see [tests](https://github.com/NOAA-OWP/SoilFreezeThaw/blob/master/tests/README.md))
-    - Synthetic example (standalone mode): simulations with prescribed soil moisture profiles (static input) (see [build/run](https://github.com/NOAA-OWP/SoilFreezeThaw/blob/master/INSTALL.md#standalone-mode-example))
-    - Real field example (pseudo framework mode): simulations with real forcing data (see [build/run](https://github.com/NOAA-OWP/SoilFreezeThaw/blob/master/INSTALL.md#pseudo-framework-mode-example))
-    - Examples (nextgen framework mode):
-       - Synthetic example: Identical to the above `Synthetic example` but runs in the nextgen framework.
-       - Real field example: Identical to the above `Real field example` but runs in the nextgen framework.
-       - Real field example: Two nextgen realization examples coupling 1) SFT with [CFE](https://github.com/NOAA-OWP/cfe/) and 2) SFT with [LASAM](https://github.com/NOAA-OWP/LGAR-C) running on a catchment in HUC01 region are also provided in [examples](https://github.com/NOAA-OWP/SoilFreezeThaw/blob/master/examples/README.md) directory. Build and run instructions are given at [build](https://github.com/NOAA-OWP/SoilFreezeThaw/blob/master/INSTALL.md#nextgen-framework-mode-example) and [run](https://github.com/NOAA-OWP/SoilFreezeThaw/blob/master/examples/README.md), respectively.
-    
-## Model Configuration File
-A detailed description of the parameters for model configuration is provided [here](https://github.com/NOAA-OWP/SoilFreezeThaw/tree/master/configs/README.md).
-  
-## Getting help
-For questions, please contact Ahmad Jan (ahmad.jan(at)noaa.gov), the main developer/maintainer of the repository.
+> **Note:** This repository is a fork of the official [NOAA-OWP/SoilFreezeThaw](https://github.com/NOAA-OWP/SoilFreezeThaw) model, specifically adapted to support the findings of the publication listed below.
 
-## Known issues or raise an issue
-We are constantly looking to improve the model and/or fix bugs as they arise. Please see the Git Issues for known issues or if you want to suggest adding a capability or to report a bug, please open an issue.
+This version of the Soil Freeze-Thaw (SFT) model has been modified and configured to simulate the thermal dynamics of permeable pavement systems under freeze-thaw conditions. The work was conducted as part of a study using unique field data from a permeable pavement test site in Aalborg, Denmark.
 
-## Getting involved
-See general instructions to contribute to the model development ([instructions](https://github.com/NOAA-OWP/SoilFreezeThaw/blob/master/CONTRIBUTING.md)) or simply fork the repository and submit a pull request.
+The implementation adapts the model's **"pseudo framework mode"**, coupling the SFT physics engine with a custom soil moisture component. This component uses observed water table data from the field site to empirically determine the vertical moisture profiles needed as input for the thermal simulations.
+
+## Associated Publication
+
+The code and data in this repository were used to produce the results presented in the following paper:
+
+**Title:** Thermal Behavior of Permeable Pavements under Freeze-Thaw Conditions  
+**Authors:** Dansani Vasanthan Muttuvelu, Lasse Hedegaard Hansen, Ahmad Jan Khattak, and Jes Vollertsen  
+**Journal:** *Preprint submitted to Elsevier* (or update with final journal information)  
+**Link:** [Link to your preprint or final paper]
+
+## Contents of this Repository
+
+This repository contains:
+*   The modified SFT model source code.
+*   The specific forcing data from the Aalborg test site used for the simulations presented in the paper.
+*   The configuration files required to reproduce the paper's results.
+
+## How to Use This Repository
+
+This repository is primarily intended to provide the code and data necessary to reproduce the results presented in the associated publication.
+
+1.  **Build the Model:** For general build instructions, please refer to the original [`INSTALL.md`](https://github.com/NOAA-OWP/SoilFreezeThaw/blob/master/INSTALL.md) file. This project specifically uses the **pseudo framework mode**, so you will need to use the `-DPFRAMEWORK=ON` flag during the `cmake` step.
+2.  **Forcing Data:** The forcing data for the Aalborg test site can be found in the `forcings/` directory.
+3.  **Configuration:** The model configuration files used for the calibrated simulations and sensitivity analyses are located in the `configs/` directory.
+
+## Original Model Documentation
+
+For general documentation, information on other run modes (standalone, nextgen), and to report issues with the core model, please refer to the official **[NOAA-OWP/SoilFreezeThaw repository](https://github.com/NOAA-OWP/SoilFreezeThaw)**.
+
+## Citation
+
+If you use this code or data in your research, please cite our paper:
+
+```bibtex
+@article{Muttuvelu2024,
+  title   = {Thermal Behavior of Permeable Pavements under Freeze-Thaw Conditions},
+  author  = {Muttuvelu, Dansani Vasanthan and Hansen, Lasse Hedegaard and Khattak, Ahmad Jan and Vollertsen, Jes},
+  journal = {Preprint submitted to Elsevier},
+  year    = {2024}
+}
+```
+
+## Acknowledgments
+
+This work builds directly upon the excellent modeling framework developed by the NOAA Office of Water Prediction (OWP). We thank the original developers for making their code publicly available.
+
+## License
+
+This software is licensed under the same terms as the original [NOAA-OWP/SoilFreezeThaw](https://github.com/NOAA-OWP/SoilFreezeThaw) repository.
